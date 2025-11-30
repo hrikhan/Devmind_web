@@ -1,13 +1,13 @@
 part of 'app_pages.dart';
 
 abstract class Routes {
-  static const home = '/home';
-  static const snippets = '/snippets';
-  static const planner = '/planner';
+  static const login = '/login';
+  static const portfolio = '/portfolio';
+  static const tasks = '/tasks';
 }
 
 abstract class _Paths {
-  static const home = Routes.home;
-  static const snippets = Routes.snippets;
-  static const planner = Routes.planner;
+  static const login = Routes.login;
+  static const portfolio = Routes.portfolio;
+  static const tasks = Routes.tasks;
 }

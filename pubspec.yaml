@@ -39,6 +39,11 @@ dependencies:
   
   # State Management & Navigation
   get: ^4.6.6
+
+  # Auth & Firebase (wire up after static UI)
+  firebase_core: ^3.7.0
+  firebase_auth: ^5.3.1
+  google_sign_in: ^6.2.1
   
   # Storage
   hive: ^2.2.3
@@ -48,6 +53,8 @@ dependencies:
   uuid: ^4.3.3
   equatable: ^2.0.5
   intl: ^0.19.0
+  url_launcher: ^6.3.1
+  audioplayers: ^5.2.1
   
   # AI Integration (for future use)
   http: ^1.2.1
@@ -80,6 +87,7 @@ flutter:
   assets:
     - assets/icons/
     - assets/images/
+    - assets/sounds/
     - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see

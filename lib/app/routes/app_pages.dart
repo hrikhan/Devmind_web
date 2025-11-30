@@ -1,33 +1,27 @@
-import 'package:devmind/app/modules/home/bindings/home_binding.dart';
-import 'package:devmind/app/modules/home/views/home_view.dart';
-import 'package:devmind/app/modules/snippets/bindings/snippets_binding.dart';
-import 'package:devmind/app/modules/snippets/views/snippets_view.dart';
-import 'package:devmind/app/modules/planner/bindings/planner_binding.dart';
-import 'package:devmind/app/modules/planner/views/planner_view.dart';
+import 'package:devmind/app/views/login_view.dart';
+import 'package:devmind/app/views/portfolio_view.dart';
+import 'package:devmind/app/views/task_management_view.dart';
 import 'package:get/get.dart';
 
 part 'app_routes.dart';
 
 class AppPages {
-  static const initial = Routes.home;
+  static const initial = Routes.portfolio;
 
   static final routes = [
     GetPage(
-      name: _Paths.home,
-      page: () => const HomeView(),
-      binding: HomeBinding(),
+      name: _Paths.login,
+      page: () => const LoginView(),
       transition: Transition.fadeIn,
     ),
     GetPage(
-      name: _Paths.snippets,
-      page: () => const SnippetsView(),
-      binding: SnippetsBinding(),
+      name: _Paths.portfolio,
+      page: () => const PortfolioView(),
       transition: Transition.fadeIn,
     ),
     GetPage(
-      name: _Paths.planner,
-      page: () => const PlannerView(),
-      binding: PlannerBinding(),
+      name: _Paths.tasks,
+      page: () => const TaskManagementView(),
       transition: Transition.fadeIn,
     ),
   ];
