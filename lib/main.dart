@@ -1,8 +1,8 @@
-import 'package:devmind/app/controllers/auth_controller.dart';
-import 'package:devmind/app/controllers/portfolio_controller.dart';
-import 'package:devmind/app/controllers/task_controller.dart';
-import 'package:devmind/app/routes/app_pages.dart';
-import 'package:devmind/app/theme/app_theme.dart';
+import 'package:devmind/app_feature/auth_system/controller/auth_controller.dart';
+import 'package:devmind/app_feature/portfolio/controller/portfolio_controller.dart';
+import 'package:devmind/app_feature/task_management/connected_screen/task_progres/controller/task_controller.dart';
+import 'package:devmind/app_common/routes/app_pages.dart';
+import 'package:devmind/app_common/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
