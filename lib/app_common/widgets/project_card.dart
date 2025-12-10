@@ -79,9 +79,10 @@ class _ProjectCardState extends State<ProjectCard> {
                               ),
                             ],
                           ),
-                          child: const Icon(
+                          child: Icon(
                             Icons.auto_awesome,
                             color: Colors.white,
+                            size: 28.w,
                           ),
                         ),
                         SizedBox(width: 12.w),
@@ -116,7 +117,7 @@ class _ProjectCardState extends State<ProjectCard> {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(16),
                       child: AspectRatio(
-                        aspectRatio: 9 / 16,
+                        aspectRatio: 20 / 16,
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(16),
@@ -135,6 +136,7 @@ class _ProjectCardState extends State<ProjectCard> {
                               : Image.network(
                                   widget.imageUrl,
                                   fit: BoxFit.cover,
+                                  height: 100.w,
                                   width: double.infinity,
                                   errorBuilder: (_, __, ___) => const Center(
                                     child: Text(
@@ -144,13 +146,14 @@ class _ProjectCardState extends State<ProjectCard> {
                                   ),
                                   loadingBuilder:
                                       (context, child, loadingProgress) {
-                                    if (loadingProgress == null) return child;
-                                    return const Center(
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                      ),
-                                    );
-                                  },
+                                        if (loadingProgress == null)
+                                          return child;
+                                        return const Center(
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2,
+                                          ),
+                                        );
+                                      },
                                 ),
                         ),
                       ),

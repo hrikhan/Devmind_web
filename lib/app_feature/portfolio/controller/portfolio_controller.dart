@@ -57,14 +57,16 @@ class PortfolioController extends GetxController {
         company: 'Softvence Agency',
         role: 'Junior Flutter Developer',
         timeline: 'Joined Jul 16 � Present',
-        logoUrl: 'https://logo.clearbit.com/softvence.com',
+        logoUrl:
+            "https://cdn.prod.website-files.com/63bcf9ab8eb5266da6a0db19/65cdd8d9c5769e2142d26808_65cdc4be0f0cf35e995108b0_Frame%252B8sdfsd.png",
         detail: 'Delivered 20+ client projects end-to-end.',
       ),
       WorkExperience(
         company: 'Spondon IT',
         role: 'Flutter Developer Intern',
         timeline: 'Feb 1 � Jul 16',
-        logoUrl: 'https://logo.clearbit.com/spondonit.com',
+        logoUrl:
+            'https://media.licdn.com/dms/image/v2/C4D1BAQFDgKhGZlyNZg/company-background_10000/company-background_10000/0/1625026566674/spondonit_cover?e=2147483647&v=beta&t=b8iTmxEP5PG0XIJb9kX9SdVuaGNaU6sGvyEa_aJ2USk',
         detail: 'Developed and maintained LMS app redesign.',
       ),
     ]);

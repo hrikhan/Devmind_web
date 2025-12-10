@@ -3,6 +3,7 @@ import "package:devmind/app_common/widgets/responsive.dart";
 import "package:devmind/app_feature/portfolio/controller/portfolio_controller.dart";
 import "package:flutter/material.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
+import "package:get/get.dart";
 
 class PortfolioExperienceSection extends StatelessWidget {
   const PortfolioExperienceSection({super.key, required this.controller});
@@ -25,32 +26,38 @@ class PortfolioExperienceSection extends StatelessWidget {
           builder: (context, size) {
             final isMobile = size == DeviceSize.mobile;
             final spacing = isMobile ? 14.0 : 18.0;
-            final children = controller.experience
-                .map(
-                  (exp) => CustomCard(
-                    title: exp.company,
-                    subtitle: '${exp.role} · ${exp.timeline}\n${exp.detail}',
-                    imageUrl: exp.logoUrl,
-                    icon: Icons.work_outline,
-                  ),
-                )
-                .toList();
 
-            return Wrap(
-              spacing: spacing.w,
-              runSpacing: spacing.h,
-              children: children
+            return Obx(() {
+              final experiences = controller.experience;
+              if (experiences.isEmpty) return const SizedBox.shrink();
+
+              final children = experiences
                   .map(
-                    (widget) => SizedBox(
-                      width: _experienceCardWidth(
-                        size,
-                        MediaQuery.of(context).size.width,
-                      ),
-                      child: widget,
+                    (exp) => CustomCard(
+                      title: exp.company,
+                      subtitle: '${exp.role} Â· ${exp.timeline}\n${exp.detail}',
+                      imageUrl: exp.logoUrl,
+                      icon: Icons.work_outline,
                     ),
                   )
-                  .toList(),
-            );
+                  .toList();
+
+              return Wrap(
+                spacing: spacing.w,
+                runSpacing: spacing.h,
+                children: children
+                    .map(
+                      (widget) => SizedBox(
+                        width: _experienceCardWidth(
+                          size,
+                          MediaQuery.of(context).size.width,
+                        ),
+                        child: widget,
+                      ),
+                    )
+                    .toList(),
+              );
+            });
           },
         ),
       ],

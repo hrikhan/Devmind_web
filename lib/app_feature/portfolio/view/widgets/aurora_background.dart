@@ -1,47 +1,94 @@
-import 'dart:ui' as ui;
 import 'dart:async';
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:get/get.dart';
 
-class AuroraBackground extends StatefulWidget {
+class AuroraBackground extends StatelessWidget {
   /// intensity: 0.0 - 1.0 controls strength/opacity of the aurora
   final double intensity;
 
   const AuroraBackground({Key? key, this.intensity = 1.0}) : super(key: key);
 
   @override
-  State<AuroraBackground> createState() => _AuroraBackgroundState();
+  Widget build(BuildContext context) {
+    return GetBuilder<_AuroraBackgroundController>(
+      tag: 'aurora-background-$intensity',
+      global: false,
+      init: _AuroraBackgroundController(intensity),
+      builder: (controller) {
+        return Obx(() {
+          if (!controller.isReady) {
+            // fallback: subtle gradient when shader isn't available yet
+            return IgnorePointer(
+              child: SizedBox.expand(
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        const Color(0xFF0B1226)
+                            .withOpacity(1.0 * controller.intensity),
+                        const Color(0xFF10142A)
+                            .withOpacity(0.8 * controller.intensity),
+                        const Color(0xFF1B2340)
+                            .withOpacity(0.6 * controller.intensity),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }
+
+          return IgnorePointer(
+            child: SizedBox.expand(
+              child: CustomPaint(
+                painter: _AuroraPainter(
+                  program: controller.program!,
+                  time: controller.time.value,
+                  intensity: controller.intensity,
+                ),
+              ),
+            ),
+          );
+        });
+      },
+    );
+  }
 }
 
-class _AuroraBackgroundState extends State<AuroraBackground>
-    with SingleTickerProviderStateMixin {
-  ui.FragmentProgram? _program;
-  ui.FragmentShader? _shader;
+class _AuroraBackgroundController extends GetxController
+    with GetSingleTickerProviderStateMixin {
+  _AuroraBackgroundController(this.intensity);
+
+  final double intensity;
+  ui.FragmentProgram? program;
   late final Ticker _ticker;
-  double _time = 0.0;
-  bool _loaded = false;
+  final RxDouble time = 0.0.obs;
+  final RxBool _loaded = false.obs;
+
+  bool get isReady => _loaded.value && program != null;
 
   @override
-  void initState() {
-    super.initState();
+  void onInit() {
+    super.onInit();
     _loadShader();
     _ticker = createTicker((elapsed) {
       // elapsed in microseconds; convert to seconds
-      setState(() {
-        _time = elapsed.inMilliseconds / 1000.0;
-      });
+      time.value = elapsed.inMilliseconds / 1000.0;
     });
     _ticker.start();
   }
 
   Future<void> _loadShader() async {
     try {
-      final program =
-          await ui.FragmentProgram.fromAsset('assets/shadar/aurora.glsl');
-      setState(() {
-        _program = program;
-        _loaded = true;
-      });
+      final programFromAsset =
+          await ui.FragmentProgram.fromAsset('assets/shadar/aurora.frag');
+      program = programFromAsset;
+      _loaded.value = true;
     } catch (e) {
       // shader failed to load — degrade gracefully
       debugPrint('Failed to load aurora shader: $e');
@@ -49,46 +96,10 @@ class _AuroraBackgroundState extends State<AuroraBackground>
   }
 
   @override
-  void dispose() {
+  void onClose() {
     _ticker.stop();
     _ticker.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (!_loaded || _program == null) {
-      // fallback: subtle gradient when shader isn't available yet
-      return IgnorePointer(
-        child: SizedBox.expand(
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Color(0xFF0B1226).withOpacity(1.0 * widget.intensity),
-                  Color(0xFF10142A).withOpacity(0.8 * widget.intensity),
-                  Color(0xFF1B2340).withOpacity(0.6 * widget.intensity),
-                ],
-              ),
-            ),
-          ),
-        ),
-      );
-    }
-
-    return IgnorePointer(
-      child: SizedBox.expand(
-        child: CustomPaint(
-          painter: _AuroraPainter(
-            program: _program!,
-            time: _time,
-            intensity: widget.intensity,
-          ),
-        ),
-      ),
-    );
+    super.onClose();
   }
 }
 

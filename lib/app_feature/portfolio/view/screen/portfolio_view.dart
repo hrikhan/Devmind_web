@@ -1,12 +1,10 @@
-import 'dart:math';
-
 import 'package:devmind/app_feature/auth_system/controller/auth_controller.dart';
 import 'package:devmind/app_common/theme/app_theme.dart';
-import 'package:devmind/app_common/widgets/sound_player.dart';
 import 'package:devmind/app_feature/portfolio/controller/portfolio_controller.dart';
 import 'package:devmind/app_feature/portfolio/view/widgets/aurora_background.dart';
 import 'package:devmind/app_feature/portfolio/view/widgets/background_animation.dart';
 import 'package:devmind/app_feature/portfolio/view/widgets/experience_section.dart';
+import 'package:devmind/app_feature/portfolio/view/widgets/portfolio_social_links.dart';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -21,18 +19,17 @@ class PortfolioView extends GetView<PortfolioController> {
 
   AuthController get _auth => Get.find<AuthController>();
   final List<String> flutterSkills = [
-    "https://cdn-icons-png.flaticon.com/512/5968/5968350.png", // Flutter
-    "https://cdn-icons-png.flaticon.com/512/5968/5968353.png", // Dart
+    "https://cdn.prod.website-files.com/654366841809b5be271c8358/659efd7c0732620f1ac6a1d6_why_flutter_is_the_future_of_app_development%20(1).webp", // Flutter
+    "https://strapi.dhiwise.com/uploads/618fa90c201104b94458e1fb_65016ca5f278a961b5c69997_OG_Image_dab434168e.jpg", // Dart
     "https://cdn-icons-png.flaticon.com/512/919/919825.png", // Firebase
-    "https://cdn-icons-png.flaticon.com/512/5968/5968705.png", // GetX
+    "https://bloclibrary.dev/_astro/bloc.DJLDGT9c_A0IIg.svg", // GetX
     "https://cdn-icons-png.flaticon.com/512/919/919828.png", // REST API
-    "https://cdn-icons-png.flaticon.com/512/919/919831.png", // GraphQL
+    "https://img.icons8.com/color/1200/firebase.jpg", // GraphQL
     "https://cdn-icons-png.flaticon.com/512/5968/5968242.png", // Provider
     "https://cdn-icons-png.flaticon.com/512/5968/5968282.png", // Bloc
-    "https://cdn-icons-png.flaticon.com/512/5968/5968347.png", // JSON
+    "https://upload.wikimedia.org/wikipedia/commons/7/7e/Dart-logo.png", // JSON
     "https://cdn-icons-png.flaticon.com/512/919/919833.png", // Git
   ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,17 +38,23 @@ class PortfolioView extends GetView<PortfolioController> {
         color: Colors.black,
         child: Stack(
           children: [
+            //  Background Animations
             AuroraBackground(intensity: 0.3),
-            SkillCloud(skillUrls: flutterSkills),
-            // FloatingBlob(
-            //   size: 200,
-            //   color: AppColors.primary.withValues(alpha: .3),
-            // ),
-            Positioned(top: -120, right: -80, child: _glow(320, 0.22)),
-            Positioned(bottom: -140, left: -60, child: _glow(300, 0.2)),
+            //Skill Bubbles
+            Positioned.fill(
+              child: Align(
+                alignment: const Alignment(1, 0.1), // push cloud slightly lower
+                child: SkillCloud(skillUrls: flutterSkills),
+              ),
+            ),
+            // Background Glows
+            Positioned(top: -140, right: -80, child: _glow(320, 0.1)),
+            Positioned(bottom: -140, left: -60, child: _glow(300, 0.1)),
             SafeArea(
               child: ScrollConfiguration(
                 behavior: _SmoothScrollBehavior(),
+
+                //main  Portfolio content
                 child: SingleChildScrollView(
                   padding: EdgeInsets.symmetric(
                     horizontal: 24.w,
@@ -71,7 +74,7 @@ class PortfolioView extends GetView<PortfolioController> {
                           SizedBox(height: 28.h),
                           PortfolioProjectsSection(controller: controller),
                           SizedBox(height: 28.h),
-                          _buildSocial(context),
+                          const PortfolioSocialLinks(),
                         ],
                       ),
                     ),
@@ -82,84 +85,6 @@ class PortfolioView extends GetView<PortfolioController> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildSocial(BuildContext context) {
-    final social = [
-      (Icons.code, 'https://github.com'),
-      (Icons.work, 'https://www.linkedin.com'),
-      (Icons.chat, 'https://t.me'),
-      (Icons.email, 'mailto:hello@devmind.app'),
-      (Icons.facebook, 'https://facebook.com'),
-    ];
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Connect',
-          style: Theme.of(
-            context,
-          ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800),
-        ),
-        SizedBox(height: 12.h),
-        Row(
-          children: social
-              .map(
-                (item) => Padding(
-                  padding: EdgeInsets.only(right: 12.w),
-                  child: InkWell(
-                    onTap: () {
-                      SoundPlayer.playClick();
-                      controller.openProjectLink(item.$2);
-                    },
-                    borderRadius: BorderRadius.circular(12),
-                    child: Ink(
-                      width: 46.w,
-                      height: 46.w,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.06),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: Colors.white.withOpacity(0.1),
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.glow.withOpacity(0.16),
-                            blurRadius: 12,
-                          ),
-                        ],
-                      ),
-                      child: Icon(item.$1, color: Colors.white),
-                    ),
-                  ),
-                ),
-              )
-              .toList(),
-        ),
-        SizedBox(height: 24.h),
-        RichText(
-          text: TextSpan(
-            text: 'Looking for collaboration? ',
-            style: Theme.of(context).textTheme.bodyMedium,
-            children: [
-              TextSpan(
-                text: 'Ping me',
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () {
-                    SoundPlayer.playClick();
-                    controller.openProjectLink('mailto:hello@devmind.app');
-                  },
-                style: const TextStyle(
-                  color: AppColors.glow,
-                  decoration: TextDecoration.underline,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
     );
   }
 

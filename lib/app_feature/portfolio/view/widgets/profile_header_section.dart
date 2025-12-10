@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:devmind/app_common/routes/app_pages.dart';
 import 'package:devmind/app_common/theme/app_theme.dart';
 import 'package:devmind/app_common/widgets/custom_button.dart';
@@ -127,17 +128,37 @@ class PortfolioProfileHeader extends StatelessWidget {
                           textAlign: titleAlign,
                         ),
                         SizedBox(height: 8.h),
-                        Text(
-                          'Flutter Developer | Software Engineer',
-                          style: Theme.of(context).textTheme.titleMedium
-                              ?.copyWith(color: Colors.white70),
-                          textAlign: titleAlign,
+                        DefaultTextStyle(
+                          style:
+                              Theme.of(context).textTheme.titleMedium?.copyWith(
+                                color: Colors.white70,
+                              ) ??
+                              const TextStyle(
+                                color: Colors.white70,
+                                fontSize: 16,
+                              ),
+                          child: AnimatedTextKit(
+                            repeatForever: true,
+                            pause: const Duration(milliseconds: 1200),
+                            animatedTexts: [
+                              TyperAnimatedText(
+                                'Flutter Developer',
+                                speed: const Duration(milliseconds: 70),
+                                textAlign: titleAlign,
+                              ),
+                              TyperAnimatedText(
+                                'Software Engineer',
+                                speed: const Duration(milliseconds: 70),
+                                textAlign: titleAlign,
+                              ),
+                            ],
+                          ),
                         ),
                         SizedBox(height: 12.h),
                         Text(
                           'I build expressive Flutter experiences with motion, system thinking, and realtime collaboration in mind. Obsessed with clean architecture, GetX state, and making mobile-first UIs feel premium on every screen size.',
                           style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(color: Colors.white70, height: 1.6),
+                              ?.copyWith(color: Colors.white, height: 1.6),
                           textAlign: titleAlign,
                         ),
                         SizedBox(height: 8.h),
