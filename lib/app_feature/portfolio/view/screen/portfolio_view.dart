@@ -1,9 +1,13 @@
+import 'dart:math';
+
 import 'package:devmind/app_feature/auth_system/controller/auth_controller.dart';
-import 'package:devmind/app_feature/portfolio/controller/portfolio_controller.dart';
 import 'package:devmind/app_common/theme/app_theme.dart';
 import 'package:devmind/app_common/widgets/sound_player.dart';
-import 'package:devmind/app_feature/portfolio/view/widgets/experience_section.dart'
-    show PortfolioExperienceSection;
+import 'package:devmind/app_feature/portfolio/controller/portfolio_controller.dart';
+import 'package:devmind/app_feature/portfolio/view/widgets/aurora_background.dart';
+import 'package:devmind/app_feature/portfolio/view/widgets/background_animation.dart';
+import 'package:devmind/app_feature/portfolio/view/widgets/experience_section.dart';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,17 +17,36 @@ import 'package:devmind/app_feature/portfolio/view/widgets/profile_header_sectio
 import 'package:devmind/app_feature/portfolio/view/widgets/projects_section.dart';
 
 class PortfolioView extends GetView<PortfolioController> {
-  const PortfolioView({super.key});
+  PortfolioView({super.key});
 
   AuthController get _auth => Get.find<AuthController>();
+  final List<String> flutterSkills = [
+    "https://cdn-icons-png.flaticon.com/512/5968/5968350.png", // Flutter
+    "https://cdn-icons-png.flaticon.com/512/5968/5968353.png", // Dart
+    "https://cdn-icons-png.flaticon.com/512/919/919825.png", // Firebase
+    "https://cdn-icons-png.flaticon.com/512/5968/5968705.png", // GetX
+    "https://cdn-icons-png.flaticon.com/512/919/919828.png", // REST API
+    "https://cdn-icons-png.flaticon.com/512/919/919831.png", // GraphQL
+    "https://cdn-icons-png.flaticon.com/512/5968/5968242.png", // Provider
+    "https://cdn-icons-png.flaticon.com/512/5968/5968282.png", // Bloc
+    "https://cdn-icons-png.flaticon.com/512/5968/5968347.png", // JSON
+    "https://cdn-icons-png.flaticon.com/512/919/919833.png", // Git
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(gradient: AppColors.gradientDark),
+        // decoration: const BoxDecoration(gradient: AppColors.gradientDark),
+        color: Colors.black,
         child: Stack(
           children: [
+            AuroraBackground(intensity: 0.3),
+            SkillCloud(skillUrls: flutterSkills),
+            // FloatingBlob(
+            //   size: 200,
+            //   color: AppColors.primary.withValues(alpha: .3),
+            // ),
             Positioned(top: -120, right: -80, child: _glow(320, 0.22)),
             Positioned(bottom: -140, left: -60, child: _glow(300, 0.2)),
             SafeArea(

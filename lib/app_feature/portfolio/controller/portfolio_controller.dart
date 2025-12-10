@@ -1,39 +1,6 @@
+import "package:devmind/app_feature/portfolio/model/projeect_model.dart";
 import "package:get/get.dart";
 import "package:url_launcher/url_launcher.dart";
-
-class PortfolioProject {
-  PortfolioProject({
-    required this.title,
-    required this.description,
-    required this.tags,
-    required this.imageUrl,
-    required this.githubUrl,
-    required this.liveUrl,
-  });
-
-  final String title;
-  final String description;
-  final List<String> tags;
-  final String imageUrl;
-  final String githubUrl;
-  final String liveUrl;
-}
-
-class WorkExperience {
-  WorkExperience({
-    required this.company,
-    required this.role,
-    required this.timeline,
-    required this.logoUrl,
-    required this.detail,
-  });
-
-  final String company;
-  final String role;
-  final String timeline;
-  final String logoUrl;
-  final String detail;
-}
 
 class PortfolioController extends GetxController {
   final projects = <PortfolioProject>[].obs;
@@ -50,7 +17,8 @@ class PortfolioController extends GetxController {
     projects.assignAll([
       PortfolioProject(
         title: 'Kizzy Kobe',
-        description: 'API-powered search that helps you find your match faster.',
+        description:
+            'API-powered search that helps you find your match faster.',
         tags: ['Flutter', 'Dart', 'GetX', 'AI'],
         imageUrl:
             'https://res.cloudinary.com/dtyyorbhn/image/upload/v1764604704/Screenshot_2025-12-01-21-57-00-366_com.example.sakshamrana123_snptih.jpg',
@@ -88,14 +56,14 @@ class PortfolioController extends GetxController {
       WorkExperience(
         company: 'Softvence Agency',
         role: 'Junior Flutter Developer',
-        timeline: 'Joined Jul 16 – Present',
+        timeline: 'Joined Jul 16 ï¿½ Present',
         logoUrl: 'https://logo.clearbit.com/softvence.com',
         detail: 'Delivered 20+ client projects end-to-end.',
       ),
       WorkExperience(
         company: 'Spondon IT',
         role: 'Flutter Developer Intern',
-        timeline: 'Feb 1 – Jul 16',
+        timeline: 'Feb 1 ï¿½ Jul 16',
         logoUrl: 'https://logo.clearbit.com/spondonit.com',
         detail: 'Developed and maintained LMS app redesign.',
       ),

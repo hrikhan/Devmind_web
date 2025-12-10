@@ -16,7 +16,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.portfolio,
-      page: () => const PortfolioView(),
+      page: () => PortfolioView(),
       transition: Transition.fadeIn,
     ),
     GetPage(

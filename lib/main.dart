@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (_, child) {
         return GetMaterialApp(
-          title: 'DevMind',
+          title: 'Hrilin',
           debugShowCheckedModeBanner: false,
           theme: AppTheme.darkTheme,
           darkTheme: AppTheme.darkTheme,

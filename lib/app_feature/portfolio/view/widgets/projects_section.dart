@@ -30,9 +30,9 @@ class PortfolioProjectsSection extends StatelessWidget {
                 final maxWidth = constraints.maxWidth;
                 final itemWidth = switch (size) {
                   DeviceSize.desktop =>
-                      (maxWidth - (spacing * 2)).clamp(0, double.infinity) / 3,
+                    (maxWidth - (spacing * 2)).clamp(0, double.infinity) / 3,
                   DeviceSize.tablet =>
-                      (maxWidth - spacing).clamp(0, double.infinity) / 2,
+                    (maxWidth - spacing).clamp(0, double.infinity) / 2,
                   DeviceSize.mobile => maxWidth,
                 };
 
@@ -50,9 +50,8 @@ class PortfolioProjectsSection extends StatelessWidget {
                             imageUrl: project.imageUrl,
                             onOpenGithub: () =>
                                 controller.openProjectLink(project.githubUrl),
-                            onOpenLive: () => controller.openProjectLink(
-                              project.liveUrl,
-                            ),
+                            onOpenLive: () =>
+                                controller.openProjectLink(project.liveUrl),
                           ),
                         ),
                       )

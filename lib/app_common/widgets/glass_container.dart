@@ -22,22 +22,19 @@ class GlassContainer extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: Colors.white.withOpacity(0.12)),
-        gradient: LinearGradient(
-          colors: [
-            AppColors.card.withOpacity(0.8),
-            AppColors.background2.withOpacity(0.6),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.glow.withOpacity(0.14),
-            blurRadius: 24,
-            spreadRadius: 2,
-            offset: const Offset(0, 10),
-          ),
-        ],
+        // gradient: LinearGradient(
+        //   colors: [Colors.transparent, Colors.transparent],
+        //   begin: Alignment.topLeft,
+        //   end: Alignment.bottomRight,
+        // ),
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: AppColors.glow.withOpacity(0.14),
+        //     blurRadius: 24,
+        //     spreadRadius: 2,
+        //     offset: const Offset(0, 10),
+        //   ),
+        // ],
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
