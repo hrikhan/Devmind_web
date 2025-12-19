@@ -44,6 +44,7 @@ dependencies:
   # Auth & Firebase (wire up after static UI)
   firebase_core: ^3.7.0
   firebase_auth: ^5.3.1
+  cloud_firestore: ^5.4.4
   google_sign_in: ^6.2.1
   
   # Storage
@@ -56,6 +57,7 @@ dependencies:
   intl: ^0.19.0
   url_launcher: ^6.3.1
   audioplayers: ^5.2.1
+  file_picker: ^8.1.2
   
   # AI Integration (for future use)
   http: ^1.2.1
@@ -87,7 +89,7 @@ flutter:
   # Application assets
   assets:
     - assets/icons/
-    - assets/images/
+    
     - assets/sounds/
     - .env
 
