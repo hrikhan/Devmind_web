@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "680739651296",
+    "project_id": "devmind-207f0",
+    "storage_bucket": "devmind-207f0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:680739651296:android:d07fe868f6f7352f459a85",
+        "android_client_info": {
+          "package_name": "com.hrilin.devmind"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB--l19cCzUrmVY6X18IkUsXLqJRGlg2TY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
