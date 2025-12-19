@@ -3,6 +3,8 @@ import 'package:devmind/app_feature/portfolio/controller/portfolio_controller.da
 import 'package:devmind/app_feature/task_management/connected_screen/task_progres/controller/task_controller.dart';
 import 'package:devmind/app_common/routes/app_pages.dart';
 import 'package:devmind/app_common/theme/app_theme.dart';
+import 'package:devmind/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -10,7 +12,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // Initialize Hive for local storage
   await Hive.initFlutter();
 

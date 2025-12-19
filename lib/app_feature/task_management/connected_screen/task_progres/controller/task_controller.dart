@@ -1,81 +1,45 @@
+import 'dart:async';
+
+import 'package:devmind/app_feature/firebase_service/task_database.dart';
+import 'package:devmind/app_feature/task_management/model/task_model.dart';
 import 'package:get/get.dart';
 
-class TaskItem {
-  TaskItem({
-    required this.title,
-    required this.category,
-    required this.dueDate,
-    this.isDone = false,
-  });
-
-  final String title;
-  final String category;
-  final DateTime dueDate;
-  final bool isDone;
-
-  TaskItem copyWith({
-    String? title,
-    String? category,
-    DateTime? dueDate,
-    bool? isDone,
-  }) {
-    return TaskItem(
-      title: title ?? this.title,
-      category: category ?? this.category,
-      dueDate: dueDate ?? this.dueDate,
-      isDone: isDone ?? this.isDone,
-    );
-  }
-}
-
 class TaskController extends GetxController {
+  TaskController({TaskDatabase? database})
+      : _database = database ?? TaskDatabase();
+
   final tasks = <TaskItem>[].obs;
+  final TaskDatabase _database;
+  StreamSubscription<List<TaskItem>>? _subscription;
 
   @override
   void onInit() {
     super.onInit();
-    loadSeedTasks();
+    _subscription = _database.watchTasks().listen((remoteTasks) {
+      tasks.assignAll(remoteTasks);
+    });
   }
 
-  void loadSeedTasks() {
-    tasks.assignAll([
-      TaskItem(
-        title: 'Wire portfolio hero animation',
-        category: 'Design',
-        dueDate: DateTime.now().add(const Duration(days: 2)),
-      ),
-      TaskItem(
-        title: 'Hook GetX task CRUD',
-        category: 'Development',
-        dueDate: DateTime.now().add(const Duration(days: 4)),
-      ),
-      TaskItem(
-        title: 'Add Firebase config',
-        category: 'Integration',
-        dueDate: DateTime.now().add(const Duration(days: 7)),
-        isDone: true,
-      ),
-    ]);
+  @override
+  void onClose() {
+    _subscription?.cancel();
+    super.onClose();
   }
 
-  void addTask(TaskItem task) {
-    tasks.add(task);
+  Future<void> addTask(TaskItem task) async {
+    await _database.createTask(task);
   }
 
-  void updateTask(int index, TaskItem task) {
-    if (index < 0 || index >= tasks.length) return;
-    tasks[index] = task;
+  Future<void> updateTask(TaskItem task) async {
+    await _database.updateTask(task);
   }
 
-  void deleteTask(int index) {
-    if (index < 0 || index >= tasks.length) return;
-    tasks.removeAt(index);
+  Future<void> deleteTask(String id) async {
+    await _database.deleteTask(id);
   }
 
-  void toggleStatus(int index) {
-    if (index < 0 || index >= tasks.length) return;
-    final task = tasks[index];
-    tasks[index] = task.copyWith(isDone: !task.isDone);
+  Future<void> toggleStatus(TaskItem task) async {
+    await _database.updateTask(task.copyWith(isDone: !task.isDone));
   }
 
   double get progress {
