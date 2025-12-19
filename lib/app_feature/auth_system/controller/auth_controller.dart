@@ -1,4 +1,8 @@
+import 'dart:async';
+
 import 'package:devmind/app_common/routes/app_pages.dart';
+import 'package:devmind/app_feature/firebase_service/auth_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 class AuthUser {
@@ -12,10 +16,24 @@ class AuthUser {
 class AuthController extends GetxController {
   final Rx<AuthUser?> user = Rx<AuthUser?>(null);
   final isLoading = false.obs;
+  final FirebaseAuthService _authService = FirebaseAuthService();
+  StreamSubscription<User?>? _authSub;
 
-  // Share these with the user you want to give access to tasks.
-  static const _allowedEmail = '1234';
-  static const _allowedPassword = '1234';
+  @override
+  void onInit() {
+    super.onInit();
+    _authSub = _authService.authStateChanges().listen((firebaseUser) {
+      if (firebaseUser == null) {
+        user.value = null;
+      } else {
+        user.value = AuthUser(
+          name: firebaseUser.displayName ?? 'Portfolio Guest',
+          email: firebaseUser.email ?? '',
+          photoUrl: firebaseUser.photoURL ?? '',
+        );
+      }
+    });
+  }
 
   @override
   void onReady() {
@@ -23,38 +41,74 @@ class AuthController extends GetxController {
     checkLogin();
   }
 
+  @override
+  void onClose() {
+    _authSub?.cancel();
+    super.onClose();
+  }
+
   Future<void> loginWithCredentials({
     required String email,
     required String password,
   }) async {
     isLoading.value = true;
-    await Future<void>.delayed(const Duration(milliseconds: 350));
-    if (email.trim() == _allowedEmail && password == _allowedPassword) {
+    try {
+      final firebaseUser = await _authService.signIn(email.trim(), password);
       user.value = AuthUser(
-        name: 'Portfolio Guest',
-        email: email.trim(),
-        photoUrl: '',
+        name: firebaseUser.displayName ?? 'Portfolio Guest',
+        email: firebaseUser.email ?? email.trim(),
+        photoUrl: firebaseUser.photoURL ?? '',
       );
       Get.offAllNamed(Routes.tasks);
-    } else {
+    } on FirebaseAuthException catch (e) {
+      final message = _mapAuthError(e);
       Get.snackbar(
-        'Access denied',
-        'Contact the owner to get credentials.',
+        'Login failed',
+        message,
         snackPosition: SnackPosition.BOTTOM,
       );
+    } catch (e) {
+      Get.snackbar(
+        'Login failed',
+        'Unexpected error occurred. Please try again.',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } finally {
+      isLoading.value = false;
     }
-    isLoading.value = false;
   }
 
   Future<void> logout() async {
+    await _authService.signOut();
     user.value = null;
-    await Future<void>.delayed(const Duration(milliseconds: 200));
     Get.offAllNamed(Routes.portfolio);
   }
 
   void checkLogin() {
-    if (user.value != null) {
+    final firebaseUser = _authService.currentUser;
+    if (firebaseUser != null) {
+      user.value = AuthUser(
+        name: firebaseUser.displayName ?? 'Portfolio Guest',
+        email: firebaseUser.email ?? '',
+        photoUrl: firebaseUser.photoURL ?? '',
+      );
       Get.offAllNamed(Routes.tasks);
+    }
+  }
+
+  String _mapAuthError(FirebaseAuthException e) {
+    switch (e.code) {
+      case 'invalid-email':
+        return 'The email address is invalid.';
+      case 'user-disabled':
+        return 'This user has been disabled.';
+      case 'user-not-found':
+      case 'wrong-password':
+        return 'Invalid email or password.';
+      case 'too-many-requests':
+        return 'Too many attempts. Try again later.';
+      default:
+        return e.message ?? 'Authentication error. Please try again.';
     }
   }
 }

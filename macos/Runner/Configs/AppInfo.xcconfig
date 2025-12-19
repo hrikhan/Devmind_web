@@ -8,7 +8,7 @@
 PRODUCT_NAME = devmind
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.example.devmind
+PRODUCT_BUNDLE_IDENTIFIER = com.hrilin.devmind
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2025 com.example. All rights reserved.

@@ -1,4 +1,4 @@
-package com.example.devmind
+package com.hrilin.devmind
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,6 +1,6 @@
 {
-    "name": "devmind",
-    "short_name": "devmind",
+    "name": "com.hrilin.devmind",
+    "short_name": "com.hrilin.devmind",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
